@@ -65,4 +65,4 @@ Ex:
 curl http://localhost:3000/webhooks/github/issues/1/events
 ```
 
-To test if Github is saving the events on database, just try to create a new issue in the project that the webhook is set. 
+To test if Github is saving the events on database, just try to create a new issue in the project that the webhook is set(Give a double check in the webhook setting's page and verify if you have set up the correct ngrok url). 
