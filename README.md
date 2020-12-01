@@ -1,24 +1,42 @@
-# README
+## Setting up the project
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To make the process of start working in the project easier I've followed a hybrid docker-compose approach.
 
-Things you may want to cover:
+This approach will only dockerize the dependencies of the project, like postgresql and redis.
 
-* Ruby version
+First of all you will need to have docker and docker-compose installed on your machine. If you don't have it, you can follow the normal way(Installing postgresql and redis). 
 
-* System dependencies
+```bash
+> docker-compose up -d db redis
+```
+It will start both of the containers. 
 
-* Configuration
+## Environment variables
+In the project's root folder there is a `.env.example` file. Just copy this file:
 
-* Database creation
+```
+> cp -R .env.example .env
+```
 
-* Database initialization
+inside of the .env file you will find two variables, `SECRET_TOKEN` and `NGROK_URL`. Both are neccessary to make the integration with Github webhooks work out.
 
-* How to run the test suite
+### Generating the secret token
+On your webhooks setting's page you will a field to add the secret token. To generate it you can use the ruby command below:
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+> ruby -rsecurerandom -e 'puts SecureRandom.hex(20)'
+```
+Add the code on your webhooks setting's page and on your .env file.
 
-* Deployment instructions
+```
+SECRET_TOKEN=code_generated_by_the_command_above
+NGROK_URL=the_ngrok_url_you_have_created
+```
 
-* ...
+### Ngrok
+
+To test your webhook you will need to download and configure ngrok. After start it, get the url and add in the  payload URL on webhook setting's page:
+
+```
+<<ngrok_url>>/issues/events
+```
