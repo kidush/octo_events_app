@@ -16,7 +16,7 @@ module Issues
       attr_reader :payload
 
       def save_event
-        Event.create!(issue_id: payload['issue']['number'], body: payload)
+        Event.create!(issue_number: payload['issue']['number'], body: payload)
 
         broadcast(:successful)
       end
