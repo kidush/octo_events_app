@@ -35,8 +35,34 @@ NGROK_URL=the_ngrok_url_you_have_created
 
 ### Ngrok
 
-To test your webhook you will need to download and configure ngrok. After start it, get the url and add in the  payload URL on webhook setting's page:
+To test your webhook you will need to download and configure ngrok. After start it, get the url and add in the  payload URL on webhook setting's page and save it.
 
 ```
-<<ngrok_url>>/issues/events
+<<ngrok_url>>/webhooks/github/issues/events
 ```
+
+### Running the project
+
+Make sure that postgres and redis are running, and run:
+```
+> rails db:migrate
+```
+
+Start your application
+```
+> rails s
+```
+
+Start your Ngrok
+```
+> ./ngrok http 3000
+```
+
+The project has two endpoints one that is `webhooks/github/issues/:issue_number/events` will list all events filtered by the `issue_number`.
+
+Ex:
+```
+curl http://localhost:3000/webhooks/github/issues/1/events
+```
+
+To test if Github is saving the events on database, just try to create a new issue in the project that the webhook is set. 
