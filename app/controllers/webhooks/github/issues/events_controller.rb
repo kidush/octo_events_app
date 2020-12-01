@@ -1,9 +1,10 @@
-class Issues::EventsController < ApplicationController
+class Webhooks::Github::Issues::EventsController < ApplicationController
   include Webhooks::Github::Authenticator
 
   def index
     render json: Event.by_issue_number(params[:issue_number]),
-           each_serializer: ::Issues::Events::IndexSerializer, status: :ok
+           each_serializer: ::Webhooks::Github::Issues::EventIndexSerializer,
+           status: :ok
   end
 
   def create

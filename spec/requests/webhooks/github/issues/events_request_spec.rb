@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Issues::Events', type: :request do
+RSpec.describe 'Webhooks::Github::Issues::Events', type: :request do
   describe 'creating a new event from github' do
     context 'when a new issue is created' do
       it 'returns a status of 201' do
@@ -19,14 +19,14 @@ RSpec.describe 'Issues::Events', type: :request do
     context 'When a valid issue number is passed on url' do
       it 'returns a status of 200' do
         FactoryBot.create(:event)
-        get '/issues/1/events'
+        get '/webhooks/github/issues/1/events'
 
         expect(response).to have_http_status(:ok)
       end
 
       it 'does not return a empty response' do
         FactoryBot.create(:event)
-        get '/issues/1/events'
+        get '/webhooks/github/issues/1/events'
 
         expect(JSON.parse(response.body)).to_not be_empty
       end
@@ -35,14 +35,14 @@ RSpec.describe 'Issues::Events', type: :request do
     context 'when a invalid issue_number is passed on url' do
       it 'returns a status of 200' do 
         FactoryBot.create(:event)
-        get '/issues/2/events'
+        get '/webhooks/github/issues/2/events'
 
         expect(response).to have_http_status(:ok)
       end
 
       it 'returns a empty response' do
         FactoryBot.create(:event)
-        get '/issues/2/events'
+        get '/webhooks/github/issues/2/events'
 
         expect(JSON.parse(response.body)).to be_empty
       end
@@ -50,7 +50,7 @@ RSpec.describe 'Issues::Events', type: :request do
   end
 
   def create_event_request
-    post '/issues/events', params: valid_request_body, headers: headers
+    post '/webhooks/github/issues/events', params: valid_request_body, headers: headers
   end
 
   def valid_request_body
